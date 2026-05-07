@@ -12,8 +12,9 @@ source("plots.R")
 source("analyses.R")
 
 
-
+# =============================================================================
 # ALL DATASETS — COMBINE PLOT DATA
+# =============================================================================
 
 all_plot_data <- rbind(
   grace_plot_data, heart_plot_data, melanoma_plot_data, ova_plot_data,
@@ -30,7 +31,9 @@ all_plot_data <- rbind(
 )
 
 
+# =============================================================================
 # EPSILON SENSITIVITY ANALYSIS
+# =============================================================================
 
 eps_values <- c(0, 0.001, 0.003, 0.005, 0.01)
 
@@ -119,8 +122,46 @@ all_eps_plot_data <- lapply(eps_values, function(eps) {
 all_eps_plot_data <- dplyr::bind_rows(all_eps_plot_data)
 
 
-  
+# =============================================================================
+# CORRELATION METRICS — PER DATASET
+# =============================================================================
+
+cor_metrics_list <- list(
+  grace = calculate_cor_metrics(grace_data), melanoma = calculate_cor_metrics(melanoma_data),
+  ova = calculate_cor_metrics(ova_data), aids2 = calculate_cor_metrics(aids2_data),
+  veteran = calculate_cor_metrics(veteran_data), breast = calculate_cor_metrics(breast_data),
+  e1684 = calculate_cor_metrics(e1684_data), epileptic = calculate_cor_metrics(epileptic_data),
+  dialysis = calculate_cor_metrics(dialysis_data), pbc = calculate_cor_metrics(pbc_data),
+  prostateSurvival = calculate_cor_metrics(prostateSurvival_data), acath = calculate_cor_metrics(acath_data),
+  prostate = calculate_cor_metrics(prostate_data), dataDIVAT1 = calculate_cor_metrics(dataDIVAT1_data),
+  dataDIVAT3 = calculate_cor_metrics(dataDIVAT3_data), TRACE = calculate_cor_metrics(TRACE_data),
+  FRTCS = calculate_cor_metrics(FRTCS_data), zinc = calculate_cor_metrics(zinc_data),
+  stagec = calculate_cor_metrics(stagec_data), LeukSurv = calculate_cor_metrics(LeukSurv_data),
+  nwtco = calculate_cor_metrics(nwtco_data), retinopathy = calculate_cor_metrics(retinopathy_data),
+  Framingham = calculate_cor_metrics(Framingham_data), csl = calculate_cor_metrics(csl_data),
+  cancer = calculate_cor_metrics(cancer_data), whas500 = calculate_cor_metrics(whas500_data),
+  cgd = calculate_cor_metrics(cgd_data), Pbc3 = calculate_cor_metrics(Pbc3_data),
+  GBSG2 = calculate_cor_metrics(GBSG2_data), colon = calculate_cor_metrics(colon_data),
+  flchain = calculate_cor_metrics(flchain_data), Rossi = calculate_cor_metrics(Rossi_data),
+  burn = calculate_cor_metrics(burn_data), rott2 = calculate_cor_metrics(rott2_data),
+  d_oropha_rec = calculate_cor_metrics(d_oropha_rec_data), rdata = calculate_cor_metrics(rdata_data)
+)
+
+cor_metrics_df <- dplyr::bind_rows(
+  lapply(names(cor_metrics_list), function(ds) {
+    m <- cor_metrics_list[[ds]]
+    data.frame(dataset = ds, det_R = m$det_R, gcd = m$gcd, avg_abs_cor = m$avg_abs_cor)
+  })
+)
+
+all_plot_data_cor <- all_eps_plot_data |>
+  dplyr::filter(eps == 0) |>
+  dplyr::left_join(cor_metrics_df, by = "dataset")
+
+
+# =============================================================================
 # EPSILON SENSITIVITY — ENCIRCLE PLOTS (all epsilon values)
+# =============================================================================
 
 p_encircle_cindex_quad <- plot_encircle_by_eps_quadrant(
   all_eps_plot_data,
@@ -161,8 +202,9 @@ p_encircle_brier_quad <- plot_encircle_by_eps_quadrant(
 p_encircle_brier_quad
 
 
-  
+# =============================================================================
 # CORRELATION METRICS — SCATTER PLOTS (ggstatsplot)
+# =============================================================================
 
 library(ggstatsplot)
 
@@ -203,11 +245,11 @@ p_row1
 p_row2
 p_row3
 
-  
 
+# =============================================================================
 # VARIABLE IMPORTANCE AND INSTABILITY — AIDS2 DATASET (RSF)
+# =============================================================================
 
-  
 aids2_rsf_summary <- calculate_vimp_summary(aids2_rsf_vimp, eps = 0.005)
 
 vimp_colors <- c(
@@ -241,8 +283,9 @@ aids2_rsf_combined <- cowplot::plot_grid(
 aids2_rsf_combined
 
 
-
+# =============================================================================
 # AVERAGE MODEL PERFORMANCE ACROSS ALL DATASETS
+# =============================================================================
 
 all_eps_plot_data |>
   dplyr::group_by(model) |>
