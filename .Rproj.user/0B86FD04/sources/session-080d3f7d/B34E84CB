@@ -1,0 +1,27 @@
+{
+    "id": "B34E84CB",
+    "path": "/cloud/project/analyses.R",
+    "project_path": "analyses.R",
+    "type": "r_source",
+    "hash": "2768555806",
+    "contents": "",
+    "dirty": false,
+    "created": 1778153654403.0,
+    "source_on_save": false,
+    "relative_order": 12,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "0,4",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1778153679,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1778153679681,
+    "read_only": false,
+    "read_only_alternatives": []
+}

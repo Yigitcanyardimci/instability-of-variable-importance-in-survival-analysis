@@ -1,0 +1,27 @@
+{
+    "id": "0CEF2542",
+    "path": "/cloud/project/task.R",
+    "project_path": "task.R",
+    "type": "r_source",
+    "hash": "1903882684",
+    "contents": "",
+    "dirty": false,
+    "created": 1778153066429.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "tempName": "Untitled4",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "0,3",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1778153415,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1778153415864,
+    "read_only": false,
+    "read_only_alternatives": []
+}
